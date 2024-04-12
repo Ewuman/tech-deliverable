@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import TypedDict
 
 from fastapi import FastAPI, Form, status
@@ -53,5 +53,24 @@ def get_message():
     print("get got getted")
     return database["quotes"]
 
+@app.get("/getQuotesByAge")
+def get_quotes_by_age(max_age: int = 7):
+    """
+    Retrieve quotes posted within the specified maximum age (in days).
+    """
+    if max_age == 0:
+        return database["quotes"]
+    
+    filtered_quotes = []
 
+    # Calculate the cutoff date based on the maximum age
+    cutoff_date = datetime.now() - timedelta(days=max_age)
+
+    # Filter quotes based on the cutoff date
+    for quote in database["quotes"]:
+        quote_time = datetime.fromisoformat(quote["time"])
+        if quote_time >= cutoff_date:
+            filtered_quotes.append(quote)
+
+    return filtered_quotes
 # TODO: add another API route with a query parameter to retrieve quotes based on max age

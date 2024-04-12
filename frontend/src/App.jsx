@@ -6,11 +6,25 @@ function App() {
 	const [quotes, setQuotes] = useState([])
 
 	useEffect(() => {
-		fetch('/api/getQuotes')
-		.then(response => response.json())
-		.then(json => setQuotes(json))
-		.catch(error => console.error(error))
+		// fetch('/api/getQuotes')
+		// .then(response => response.json())
+		// .then(json => setQuotes(json))
+		// .catch(error => console.error(error))
+		fetchQuotes();
 	}, []);
+
+	const fetchQuotes = async (maxAge = 0) => {
+        try {
+            const response = await fetch(`/api/getQuotesByAge?max_age=${maxAge}`);
+            if (!response.ok) {
+                throw new Error("Failed to fetch quotes");
+            }
+            const json = await response.json();
+            setQuotes(json);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
 	return (
 		<div className="App">
@@ -26,6 +40,14 @@ function App() {
 				<input type="text" name="message" id="input-message" required />
 				<button type="submit">Submit</button>
 			</form>
+
+			<div className="dates">
+				View posts from
+				<button onClick={() => fetchQuotes(7)}>Last week</button>
+				<button onClick={() => fetchQuotes(30)}>Last month</button>
+				<button onClick={() => fetchQuotes(365)}>Last year</button>
+				<button onClick={() => fetchQuotes(0)}>All posts</button>
+			</div>
 
 			<h2>Previous Quotes</h2>
 			{/* TODO: Display the actual quotes from the database */}
