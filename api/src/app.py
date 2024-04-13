@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from typing import TypedDict
 
 from fastapi import FastAPI, Form, status
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, HTMLResponse
 
 from services.database import JSONDatabase
 
@@ -45,7 +45,7 @@ def post_message(name: str = Form(), message: str = Form()) -> RedirectResponse:
     print("Posted")
 
     # You may modify the return value as needed to support other functionality
-    return RedirectResponse("/", status.HTTP_303_SEE_OTHER)
+    return HTMLResponse(status_code=200)
 
 
 @app.get("/getQuotes")
