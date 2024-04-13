@@ -9,10 +9,6 @@ function App() {
 	const [age, setAge] = useState(0)
 
 	useEffect(() => {
-		// fetch('/api/getQuotes')
-		// .then(response => response.json())
-		// .then(json => setQuotes(json))
-		// .catch(error => console.error(error))
 		fetchQuotes();
 	}, []);
 
@@ -31,7 +27,6 @@ function App() {
     };
 
 	const handleSubmit = async (event) => {
-		console.log("Cheese")
 		event.preventDefault();
 	
 		try {
@@ -51,6 +46,7 @@ function App() {
 			setName("");
 			setMessage("");
 
+			// Displays quote in the same age category the user is already in
 			fetchQuotes(age);
 		} catch (error) {
 			console.error(error);
@@ -59,18 +55,10 @@ function App() {
 
 	return (
 		<div className="App">
-			{/* TODO: include an icon for the quote book */}
+			<img src="quotebook.png" alt="Hack logo"/>
 			<h1>Hack at UCI Tech Deliverable</h1>
 
 			<h2>Submit a quote</h2>
-			{/* TODO: implement custom form submission logic to not refresh the page */}
-			{/* <form action="/api/quote" method="post">
-				<label htmlFor="input-name">Name</label>
-				<input type="text" name="name" id="input-name" required />
-				<label htmlFor="input-message">Quote</label>
-				<input type="text" name="message" id="input-message" required />
-				<button type="submit">Submit</button>
-			</form> */}
 			<form onSubmit={handleSubmit}>
 				<label htmlFor="input-name">Name</label>
 				<input type="text" name="name" id="input-name" value={name} onChange={(e) => setName(e.target.value)}required />
@@ -88,7 +76,6 @@ function App() {
 			</div>
 
 			<h2>Previous Quotes</h2>
-			{/* TODO: Display the actual quotes from the database */}
 			<div className="messages">
 				{quotes.map(quote => <Quote quote={quote}/>)}
 			</div>

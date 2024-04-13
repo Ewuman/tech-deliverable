@@ -42,7 +42,6 @@ def post_message(name: str = Form(), message: str = Form()) -> RedirectResponse:
 
     quote = Quote(name=name, message=message, time=now.isoformat())
     database["quotes"].append(quote)
-    print("Posted")
 
     # You may modify the return value as needed to support other functionality
     return HTMLResponse(status_code=200)
@@ -73,4 +72,3 @@ def get_quotes_by_age(max_age: int = 7):
             filtered_quotes.append(quote)
 
     return filtered_quotes
-# TODO: add another API route with a query parameter to retrieve quotes based on max age
